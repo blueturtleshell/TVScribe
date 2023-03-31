@@ -10,7 +10,6 @@ import SwiftUI
 struct RootTabView: View {
     
     @StateObject var navigationManager = NavigationManager()
-    @EnvironmentObject var mediaManager: MediaManager
 
     var body: some View {
         TabView(selection: $navigationManager.tabSelection) {
@@ -22,8 +21,8 @@ struct RootTabView: View {
             }
             .tag(0)
                 
-            NavigationStack {
-                Text("TV Shows")
+            NavigationStack(path: $navigationManager.tvNavigationPath) {
+                TVHomeView()
             }
             .tabItem {
                 Label("TV Shows", systemImage: "tv")

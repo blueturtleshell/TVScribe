@@ -16,12 +16,15 @@ struct GenreView: View {
             Text("Genres unavailable")
                 .padding()
         } else {
-            LazyHGrid(rows: [GridItem(.flexible())]) {
-                ForEach(genres, id: \.self) { genre in
-                    GenreItem(text: genre)
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHGrid(rows: [GridItem(.flexible())]) {
+                    ForEach(genres, id: \.self) { genre in
+                        GenreItem(text: genre)
+                    }
                 }
+                .padding(.horizontal)
+                .accessibilityLabel("Genres for the movie / tv show")
             }
-            .accessibilityLabel("Genres for the movie / tv show")
         }
     }
 }

@@ -13,29 +13,8 @@ struct ProfileCreditView: View {
     
     var body: some View {
         VStack {
-            Group {
-                if let profileURL = viewModel.profileURL {
-                    AsyncImage(url: profileURL) { image in
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .cornerRadius(10)
-                        
-                    } placeholder: {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-                } else {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.thinMaterial)
-                        .overlay {
-                            Image(systemName: "photo")
-                                .font(.largeTitle)
-                                .fontWeight(.semibold)
-                        }
-                }
-            }
-            .frame(width: 120, height: 180)
+            PlaceholderAsyncImageView(url: viewModel.profileURL)
+                .frame(width: 120, height: 180)
             
             VStack(spacing: 10) {
                 Text(viewModel.name)
@@ -51,9 +30,3 @@ struct ProfileCreditView: View {
         }
     }
 }
-
-//struct ProfileCreditView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProfileCreditView()
-//    }
-//}

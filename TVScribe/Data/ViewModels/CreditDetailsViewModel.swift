@@ -22,7 +22,7 @@ class CreditDetailsViewModel: ObservableObject {
     }
     
     var biography: String {
-        guard let biography = creditDetails?.biography, !biography.isEmpty else { return "N/A" }
+        guard let biography = creditDetails?.biography, !biography.isEmpty else { return "Biography is not available" }
         return biography
     }
     

@@ -82,15 +82,8 @@ struct MovieDetailsView: View {
                         }
                     }
                 }
-                .background {
-                    ZStack {
-                        backgroundImage
-                        
-                        Rectangle()
-                            .fill(.thinMaterial)
-                    }
-                    .ignoresSafeArea()
-                }
+                .background(.thinMaterial)
+                .background(PlaceholderAsyncImageView(url: movieDetailsViewModel.posterURL))
             }
             
             if movieDetailsViewModel.fetching {
@@ -111,16 +104,6 @@ struct MovieDetailsView: View {
         }
     }
     
-    var backgroundImage: some View {
-        AsyncImage(url: movieDetailsViewModel.posterURL) { image in
-            image
-                .resizable()
-                .scaledToFill()
-        } placeholder: {
-            ProgressView()
-        }
-    }
-    
     var previousMovieButton: some View {
         Button {
             guard !previousMovies.isEmpty else { return }
@@ -135,12 +118,14 @@ struct MovieDetailsView: View {
         .buttonStyle(.bordered)
     }
     
-    func fetchDetails(for id: Int) async {
+    // MARK: - fetching functions
+    
+    private func fetchDetails(for id: Int) async {
         scrollToTop.toggle()
         await movieDetailsViewModel.fetchDetails(for: id, movieFetchable: mediaManager)
     }
     
-    func changeMovie(to movieID: Int, addToHistory: Bool = true) {
+    private func changeMovie(to movieID: Int, addToHistory: Bool = true) {
         if addToHistory {
             previousMovies.append((id: movieDetailsViewModel.id, name: movieDetailsViewModel.name))
         }
@@ -148,8 +133,6 @@ struct MovieDetailsView: View {
         Task {
             await fetchDetails(for: movieID)
         }
-        
-        scrollToTop.toggle()
     }
 }
 

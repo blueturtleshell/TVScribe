@@ -28,6 +28,23 @@ class MediaManager: ObservableObject, MovieFetchable {
     }
 }
 
+extension MediaManager: TVFetchable {
+    func fetchTVShows(at endpoint: TVEndpoint, page: Int) async throws -> MediaFetchResult {
+        guard let url = endpoint.url(additionalParams: ["page": String(page)]) else { throw MediaManagerError.invalidURL }
+        return try await jsonParser.parse(url: url)
+    }
+    
+    func fetchTVDetails(for id: Int) async throws -> TVShowDetails {
+        guard let url = DetailEndpoint.tv(id: id).url() else { throw MediaManagerError.invalidURL }
+        return try await jsonParser.parse(url: url)
+    }
+    
+    func fetchSeasonDetails(for showID: Int, season seasonNumber: Int) async throws -> SeasonDetails {
+        guard let url = DetailEndpoint.season(showID: showID, seasonNumber: seasonNumber).url() else { throw MediaManagerError.invalidURL }
+        return try await jsonParser.parse(url: url)
+    }
+}
+
 extension MediaManager: CreditFetchable {
     func fetchPersonDetails(for personID: Int) async throws -> CreditDetails {
         guard let url = DetailEndpoint.person(id: personID).url() else { throw MediaManagerError.invalidURL }

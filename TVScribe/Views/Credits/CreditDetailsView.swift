@@ -25,21 +25,35 @@ struct CreditDetailsView: View {
                     PlaceholderAsyncImageView(url: viewModel.profileImageURL)
                         .frame(width: 200, height: 200)
                     
-                    Text(viewModel.biography)
-                        .lineSpacing(6)
-                        .padding()
-                    
+                    Group {
+                        Text("Biography")
+                            .headerStyle()
+                            .padding([.top, .horizontal])
+                        
+                        Text(viewModel.biography)
+                            .font(.body)
+                            .lineSpacing(6)
+                            .padding()
+                            .background(.thinMaterial)
+                    }
+
                     segmentedHeader
                     
                     Group {
                         if castCreditSelection == .movies {
                             Section {
-                                LazyVStack {
-                                    ForEach(viewModel.movieCastCredits, id: \.self.specialID) { credit in
-                                        CreditDetailItemView(viewModel: CreditDetailItemViewModel(castCredit: credit))
-                                            .onTapGesture {
-                                                navigationManager.showMovie(with: credit.id)
-                                            }
+                                if viewModel.movieCastCredits.isEmpty {
+                                    Text("Movie cast credits were not found")
+                                        .padding()
+                                        .background(.thinMaterial)
+                                } else {
+                                    LazyVStack {
+                                        ForEach(viewModel.movieCastCredits, id: \.self.specialID) { credit in
+                                            CreditDetailItemView(viewModel: CreditDetailItemViewModel(castCredit: credit))
+                                                .onTapGesture {
+                                                    navigationManager.showMovie(with: credit.id)
+                                                }
+                                        }
                                     }
                                 }
                             } header: {
@@ -47,12 +61,18 @@ struct CreditDetailsView: View {
                             }
                             
                             Section {
-                                LazyVStack {
-                                    ForEach(viewModel.movieCrewCredits, id: \.self.specialID) { credit in
-                                        CreditDetailItemView(viewModel: CreditDetailItemViewModel(crewCredit: credit))
-                                            .onTapGesture {
-                                                navigationManager.showMovie(with: credit.id)
-                                            }
+                                if viewModel.movieCrewCredits.isEmpty {
+                                    Text("Movie crew credits were not found")
+                                        .padding()
+                                        .background(.thinMaterial)
+                                } else {
+                                    LazyVStack {
+                                        ForEach(viewModel.movieCrewCredits, id: \.self.specialID) { credit in
+                                            CreditDetailItemView(viewModel: CreditDetailItemViewModel(crewCredit: credit))
+                                                .onTapGesture {
+                                                    navigationManager.showMovie(with: credit.id)
+                                                }
+                                        }
                                     }
                                 }
                             } header: {
@@ -60,7 +80,43 @@ struct CreditDetailsView: View {
                             }
                             
                         } else {
+                            Section {
+                                if viewModel.tvCastCredits.isEmpty {
+                                    Text("TV cast credits were not found")
+                                        .padding()
+                                        .background(.thinMaterial)
+                                } else {
+                                    LazyVStack {
+                                        ForEach(viewModel.tvCastCredits, id: \.self.specialID) { credit in
+                                            CreditDetailItemView(viewModel: CreditDetailItemViewModel(castCredit: credit))
+                                                .onTapGesture {
+                                                    navigationManager.showTVShow(with: credit.id)
+                                                }
+                                        }
+                                    }
+                                }
+                            } header: {
+                                Text("Cast")
+                            }
                             
+                            Section {
+                                if viewModel.tvCrewCredits.isEmpty {
+                                    Text("TV crew credits were not found")
+                                        .padding()
+                                        .background(.thinMaterial)
+                                } else {
+                                    LazyVStack {
+                                        ForEach(viewModel.tvCrewCredits, id: \.self.specialID) { credit in
+                                            CreditDetailItemView(viewModel: CreditDetailItemViewModel(crewCredit: credit))
+                                                .onTapGesture {
+                                                    navigationManager.showTVShow(with: credit.id)
+                                                }
+                                        }
+                                    }
+                                }
+                            } header: {
+                                Text("Crew")
+                            }
                         }
                     }
                     .padding(.vertical)
@@ -90,10 +146,15 @@ struct CreditDetailsView: View {
 }
 
 enum MovieTVSection: String, CaseIterable {
-    case movies
+    case movies, tv
     
     var name: String {
-        rawValue.capitalized
+        switch self {
+        case .movies:
+            return "Movies"
+        case .tv:
+            return "TV"
+        }
     }
 }
 

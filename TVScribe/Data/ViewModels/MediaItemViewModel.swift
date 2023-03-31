@@ -24,7 +24,11 @@ class MediaItemViewModel {
     }
     
     var releaseYear: String {
-        String(mediaItem.releaseDate?.split(separator: "-").first ?? "-")
+        if let releaseDate = mediaItem.releaseDate, !releaseDate.isEmpty {
+            return String(mediaItem.releaseDate?.split(separator: "-").first ?? "-")
+        } else {
+            return String(mediaItem.firstAirDate?.split(separator: "-").first ?? "-")
+        }
     }
     
     var releaseDate: String {
