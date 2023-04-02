@@ -9,7 +9,10 @@ import Foundation
 
 class CreditDetailsViewModel: ObservableObject {
     
-    @Published private(set) var fetching = false
+    @Published private(set) var fetchState: FetchState = .waiting
+    @Published var hasError = false
+    @Published var error: MediaManagerError?
+    
     private var creditDetails: CreditDetails?
     
     var profileImageURL: URL? {
@@ -44,13 +47,15 @@ class CreditDetailsViewModel: ObservableObject {
     
     @MainActor
     func fetchDetails(for personID: Int, creditFetchable: CreditFetchable) async {
-        guard !fetching else { return }
+        guard fetchState != .fetching else { return }
         do {
-            fetching = true
+            fetchState = .fetching
             creditDetails = try await creditFetchable.fetchPersonDetails(for: personID)
-            fetching = false
+            fetchState = .finished
         } catch {
-            print(error)
+            fetchState = .finished
+            self.error = .specificError(error)
+            self.hasError = true
         }
     }
 }

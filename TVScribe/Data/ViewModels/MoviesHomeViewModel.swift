@@ -11,25 +11,29 @@ import Combine
 class MoviesHomeViewModel: ObservableObject {
     @Published var category: MovieCategory = .nowPlaying
     @Published private(set) var movies: [MediaItem] = []
-    @Published var fetching = false
-    private let fetchThreshold = 5
+    @Published var fetchState: FetchState = .waiting
+    @Published var hasError = false
+    @Published var error: MediaManagerError?
     
     private var page = 1
     private var totalPages = Int.max
-    
+    private let fetchThreshold = 5
+
     @MainActor
     func fetchMovies(mediaManager: MovieFetchable) async {
-        guard !fetching, page <= totalPages else { return }
-        
+        guard fetchState != .fetching, page <= totalPages else { return }
+                
         do {
-            fetching = true
+            fetchState = .fetching
             let fetchedResult = try await mediaManager.fetchMovies(at: category.endpoint, page: page)
             page = fetchedResult.page + 1
             totalPages = fetchedResult.totalPages
             movies += fetchedResult.results
-            fetching = false
+            fetchState = .finished
         } catch {
-            print(error)
+            fetchState = .finished
+            self.error = MediaManagerError.specificError(error)
+            hasError = true
         }
     }
     

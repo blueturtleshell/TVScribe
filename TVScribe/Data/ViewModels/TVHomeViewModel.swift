@@ -10,7 +10,10 @@ import Foundation
 class TVHomeViewModel: ObservableObject {
     @Published var category: TVCategory = .airingToday
     @Published private(set) var tvShows: [MediaItem] = []
-    @Published var fetching = false
+    @Published var fetchState: FetchState = .waiting
+    @Published var hasError = false
+    @Published var error: MediaManagerError?
+
     private let fetchThreshold = 5
     
     private var page = 1
@@ -18,17 +21,19 @@ class TVHomeViewModel: ObservableObject {
     
     @MainActor
     func fetchTVShows(mediaManager: TVFetchable) async {
-        guard !fetching, page <= totalPages else { return }
+        guard fetchState != .fetching, page <= totalPages else { return }
         
         do {
-            fetching = true
+            fetchState = .fetching
             let fetchedResult = try await mediaManager.fetchTVShows(at: category.endpoint, page: page)
             page = fetchedResult.page + 1
             totalPages = fetchedResult.totalPages
             tvShows += fetchedResult.results
-            fetching = false
+            fetchState = .finished
         } catch {
-            print(error)
+            fetchState = .finished
+            self.error = MediaManagerError.specificError(error)
+            hasError = true
         }
     }
     

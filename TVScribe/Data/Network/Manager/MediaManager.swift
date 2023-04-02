@@ -51,3 +51,10 @@ extension MediaManager: CreditFetchable {
         return try await jsonParser.parse(url: url)
     }
 }
+
+extension MediaManager: SearchFetchable {
+    func search(query: String, page: Int, type: SearchEndpoint) async throws -> SearchResult {
+        guard let url = type.url(additionalParams: ["query": query, "page": String(page)]) else { throw MediaManagerError.invalidURL }
+        return try await jsonParser.parse(url: url)
+    }
+}

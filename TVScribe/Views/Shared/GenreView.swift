@@ -13,7 +13,7 @@ struct GenreView: View {
     
     var body: some View {
         if genres.isEmpty {
-            Text("Genres unavailable")
+            Text("Genres not available")
                 .padding()
         } else {
             ScrollView(.horizontal, showsIndicators: false) {

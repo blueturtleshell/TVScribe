@@ -116,15 +116,8 @@ struct TVShowDetailsView: View {
                     }
                 }
             }
-            .background {
-                ZStack {
-                    backgroundImage
-                    
-                    Rectangle()
-                        .fill(.thinMaterial)
-                }
-                .ignoresSafeArea()
-            }
+            .background(.thinMaterial)
+            .background(FullSizeImageView(url: viewModel.posterURL))
         }
         .navigationTitle(viewModel.name)
         .task {
@@ -142,16 +135,6 @@ struct TVShowDetailsView: View {
         }
         .navigationDestination(for: Credit.self) { credit in
             CreditDetailsView(personID: credit.id)
-        }
-    }
-    
-    var backgroundImage: some View {
-        AsyncImage(url: viewModel.posterURL) { image in
-            image
-                .resizable()
-                .scaledToFill()
-        } placeholder: {
-            ProgressView()
         }
     }
     

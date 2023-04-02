@@ -11,6 +11,4 @@ protocol TVFetchable {
     func fetchTVShows(at endpoint: TVEndpoint, page: Int) async throws -> MediaFetchResult
     func fetchTVDetails(for id: Int) async throws -> TVShowDetails
     func fetchSeasonDetails(for showID:Int, season seasonNumber: Int) async throws -> SeasonDetails
-}
-
-// TODO: get the season details mapped out
+} 

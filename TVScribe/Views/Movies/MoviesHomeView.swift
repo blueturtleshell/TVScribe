@@ -27,7 +27,7 @@ struct MoviesHomeView: View {
                 await fetchMovies()
             }
             
-            if viewModel.fetching {
+            if viewModel.fetchState == .fetching {
                 ProgressView()
             }
         }
@@ -54,6 +54,9 @@ struct MoviesHomeView: View {
                 await fetchMovies()
             }
         })
+        .alert(isPresented: $viewModel.hasError, error: viewModel.error) {
+            Button("OK") {}
+        }
     }
     
     var movieList: some View {
@@ -74,30 +77,5 @@ struct MoviesHomeView: View {
     
     func fetchMovies() async {
         await viewModel.fetchMovies(mediaManager: mediaManager)
-    }
-}
-
-enum MovieCategory: CaseIterable {
-    case nowPlaying
-    case popular
-    case upcoming
-    case topRated
-    
-    var name: String {
-        switch self {
-        case .nowPlaying: return "Now Playing"
-        case .popular: return "Popular"
-        case .upcoming: return "Upcoming"
-        case .topRated: return "Top Rated"
-        }
-    }
-    
-    var endpoint: MovieEndpoint {
-        switch self {
-        case .nowPlaying: return .nowPlaying
-        case .popular: return .popular
-        case .upcoming: return .upcoming
-        case .topRated: return .topRated
-        }
     }
 }

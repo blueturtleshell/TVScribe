@@ -83,10 +83,10 @@ struct MovieDetailsView: View {
                     }
                 }
                 .background(.thinMaterial)
-                .background(PlaceholderAsyncImageView(url: movieDetailsViewModel.posterURL))
+                .background(FullSizeImageView(url: movieDetailsViewModel.posterURL))
             }
             
-            if movieDetailsViewModel.fetching {
+            if movieDetailsViewModel.fetchState == .fetching {
                 ProgressView()
             }
         }
@@ -101,6 +101,9 @@ struct MovieDetailsView: View {
         }
         .navigationDestination(for: Credit.self) { credit in
             CreditDetailsView(personID: credit.id)
+        }
+        .alert(isPresented: $movieDetailsViewModel.hasError, error: movieDetailsViewModel.error) {
+            Button("OK") {}
         }
     }
     

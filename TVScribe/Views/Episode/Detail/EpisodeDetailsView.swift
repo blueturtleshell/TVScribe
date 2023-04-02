@@ -45,7 +45,7 @@ struct EpisodeDetailsView: View {
                 }
             }
             .background(.thinMaterial)
-            .background(PlaceholderAsyncImageView(url: viewModel.stillImageURL))
+            .background(FullSizeImageView(url: viewModel.stillImageURL))
         }
         .navigationTitle(viewModel.name)
         .navigationDestination(for: Credit.self) { credit in

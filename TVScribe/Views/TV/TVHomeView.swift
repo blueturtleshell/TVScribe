@@ -20,14 +20,14 @@ struct TVHomeView: View {
                 .ignoresSafeArea()
             
             ScrollView {
-                movieList
+                tvList
                 .padding(.horizontal, 8)
             }
             .task {
                 await fetchTVShows()
             }
             
-            if viewModel.fetching {
+            if viewModel.fetchState == .fetching {
                 ProgressView()
             }
         }
@@ -54,9 +54,12 @@ struct TVHomeView: View {
                 await fetchTVShows()
             }
         })
+        .alert(isPresented: $viewModel.hasError, error: viewModel.error) {
+            Button("OK") {}
+        }
     }
     
-    var movieList: some View {
+    var tvList: some View {
         LazyVGrid(columns: columns, spacing: 24) {
             ForEach(viewModel.tvShows) { tvShow in
                 NavigationLink(value: tvShow) {
@@ -72,32 +75,9 @@ struct TVHomeView: View {
         }
     }
     
+    // MARK: - fetching function
+    
     func fetchTVShows() async {
         await viewModel.fetchTVShows(mediaManager: mediaManager)
-    }
-}
-
-enum TVCategory: CaseIterable {
-    case airingToday
-    case onTheAir
-    case popular
-    case topRated
-    
-    var name: String {
-        switch self {
-        case .airingToday: return "Today"
-        case .onTheAir: return "Week"
-        case .popular: return "Popular"
-        case .topRated: return "Top Rated"
-        }
-    }
-    
-    var endpoint: TVEndpoint {
-        switch self {
-        case .airingToday: return .airingToday
-        case .onTheAir: return .onTheAir
-        case .popular: return .popular
-        case .topRated: return .topRated
-        }
     }
 }

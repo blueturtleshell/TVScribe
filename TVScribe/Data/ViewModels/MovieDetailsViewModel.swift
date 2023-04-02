@@ -9,9 +9,12 @@ import Foundation
 
 class MovieDetailsViewModel: ObservableObject {
     
-    @Published private(set) var fetching = false
+    @Published private(set) var fetchState: FetchState = .waiting
     @Published private var movieDetails: MovieDetails?
-    @Published var regionCode = "US"
+    @Published var hasError = false
+    @Published var error: MediaManagerError?
+    
+    private var regionCode = "US"
     
     var id: Int {
         movieDetails?.id ?? 0
@@ -105,13 +108,15 @@ class MovieDetailsViewModel: ObservableObject {
     
     @MainActor
     func fetchDetails(for movieID: Int, movieFetchable: MovieFetchable) async {
-        guard !fetching else { return }
+        guard fetchState != .fetching else { return }
         do {
-            fetching = true
+            fetchState = .fetching
             movieDetails = try await movieFetchable.fetchMovieDetails(for: movieID)
-            fetching = false
+            fetchState = .finished
         } catch {
-            print(error)
+            fetchState = .finished
+            self.error = .specificError(error)
+            hasError = true
         }
     }
 }

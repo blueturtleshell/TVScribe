@@ -28,6 +28,14 @@ struct RootTabView: View {
                 Label("TV Shows", systemImage: "tv")
             }
             .tag(1)
+            
+            NavigationStack(path: $navigationManager.searchNavigationPath) {
+                SearchView()
+            }
+            .tabItem {
+                Label("Search", systemImage: "magnifyingglass")
+            }
+            .tag(2)
         }
         .environmentObject(navigationManager)
     }
