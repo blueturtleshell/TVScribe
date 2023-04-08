@@ -54,9 +54,6 @@ struct MoviesHomeView: View {
                 await fetchMovies()
             }
         })
-        .alert(isPresented: $viewModel.hasError, error: viewModel.error) {
-            Button("OK") {}
-        }
     }
     
     var movieList: some View {

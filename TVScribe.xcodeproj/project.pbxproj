@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		991ED86E29DA393E0074AAD3 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 991ED86C29DA393E0074AAD3 /* Main.xcdatamodeld */; };
 		9922E9AC29D3460D003CC875 /* TVShowDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9922E9AB29D3460D003CC875 /* TVShowDetailsView.swift */; };
 		9922E9AE29D34F38003CC875 /* TVShowDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9922E9AD29D34F38003CC875 /* TVShowDetails.swift */; };
 		9922E9B029D3518A003CC875 /* TVShowDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9922E9AF29D3518A003CC875 /* TVShowDetailsViewModel.swift */; };
@@ -29,6 +30,7 @@
 		996520C329D73F8A00AC0F58 /* SearchFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996520C229D73F8A00AC0F58 /* SearchFetchable.swift */; };
 		996520C529D77CC000AC0F58 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996520C429D77CC000AC0F58 /* SearchResult.swift */; };
 		996520C729D7A92F00AC0F58 /* SearchItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996520C629D7A92F00AC0F58 /* SearchItemView.swift */; };
+		997377F529DA7C4900C98F39 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997377F429DA7C4900C98F39 /* DataManager.swift */; };
 		9978040D29D6593500CC03FF /* TVShowInfoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9978040C29D6593500CC03FF /* TVShowInfoSection.swift */; };
 		9978041029D69B5900CC03FF /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9978040F29D69B5900CC03FF /* SearchView.swift */; };
 		99A892B029D4AAB200A7ECFD /* SeasonDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A892AF29D4AAB200A7ECFD /* SeasonDetails.swift */; };
@@ -81,9 +83,11 @@
 		99EC072C29CD4557009F1220 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EC070229CD4557009F1220 /* API.swift */; };
 		99EC072E29CD5D80009F1220 /* WatchProviderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EC072D29CD5D80009F1220 /* WatchProviderSection.swift */; };
 		99EC073329CD6BBA009F1220 /* VideosReviewsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EC073229CD6BBA009F1220 /* VideosReviewsSection.swift */; };
+		99FCC72329DCE1F8004DAAFF /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FCC72229DCE1F8004DAAFF /* AccountView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		991ED86D29DA393E0074AAD3 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
 		9922E9AB29D3460D003CC875 /* TVShowDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowDetailsView.swift; sourceTree = "<group>"; };
 		9922E9AD29D34F38003CC875 /* TVShowDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowDetails.swift; sourceTree = "<group>"; };
 		9922E9AF29D3518A003CC875 /* TVShowDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 		996520C229D73F8A00AC0F58 /* SearchFetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFetchable.swift; sourceTree = "<group>"; };
 		996520C429D77CC000AC0F58 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		996520C629D7A92F00AC0F58 /* SearchItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItemView.swift; sourceTree = "<group>"; };
+		997377F429DA7C4900C98F39 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9978040B29D5FB6B00CC03FF /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		9978040C29D6593500CC03FF /* TVShowInfoSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowInfoSection.swift; sourceTree = "<group>"; };
 		9978040F29D69B5900CC03FF /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -160,6 +165,7 @@
 		99EC070229CD4557009F1220 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		99EC072D29CD5D80009F1220 /* WatchProviderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProviderSection.swift; sourceTree = "<group>"; };
 		99EC073229CD6BBA009F1220 /* VideosReviewsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosReviewsSection.swift; sourceTree = "<group>"; };
+		99FCC72229DCE1F8004DAAFF /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +179,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		991ED86B29DA39290074AAD3 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				991ED86C29DA393E0074AAD3 /* Main.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		9922E9AA29D34510003CC875 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,6 +296,7 @@
 				99A892B129D5017D00A7ECFD /* Episode */,
 				99EC06DD29CD4557009F1220 /* Credits */,
 				9978040E29D69B4500CC03FF /* Search */,
+				99FCC72129DCE1E4004DAAFF /* Account */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -348,6 +363,7 @@
 		99EC06E329CD4557009F1220 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				991ED86B29DA39290074AAD3 /* CoreData */,
 				99EC06E429CD4557009F1220 /* ViewModels */,
 				99618A7829D9513A00173D79 /* Categories */,
 				99EC06EB29CD4557009F1220 /* Network */,
@@ -407,6 +423,7 @@
 				99EC06F229CD4557009F1220 /* ErrorCases */,
 				99EC06F429CD4557009F1220 /* Protocols */,
 				99EC06F829CD4557009F1220 /* MediaManager.swift */,
+				997377F429DA7C4900C98F39 /* DataManager.swift */,
 				99EC06F929CD4557009F1220 /* JSONParser.swift */,
 			);
 			path = Manager;
@@ -493,6 +510,14 @@
 				99EC06D329CD4557009F1220 /* SafariWebView.swift */,
 			);
 			path = UIKit;
+			sourceTree = "<group>";
+		};
+		99FCC72129DCE1E4004DAAFF /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				99FCC72229DCE1F8004DAAFF /* AccountView.swift */,
+			);
+			path = Account;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -582,6 +607,7 @@
 				99EC071529CD4557009F1220 /* HeaderModifier.swift in Sources */,
 				996520C129D7371400AC0F58 /* SearchEndpoint.swift in Sources */,
 				99EC072929CD4557009F1220 /* ImageEndpoint.swift in Sources */,
+				991ED86E29DA393E0074AAD3 /* Main.xcdatamodeld in Sources */,
 				9922E9B029D3518A003CC875 /* TVShowDetailsViewModel.swift in Sources */,
 				99EC06C729CD3692009F1220 /* RootTabView.swift in Sources */,
 				99EC072129CD4557009F1220 /* MediaManagerError.swift in Sources */,
@@ -589,6 +615,7 @@
 				9978041029D69B5900CC03FF /* SearchView.swift in Sources */,
 				99618A7729D9511E00173D79 /* MovieCategory.swift in Sources */,
 				99EC070429CD4557009F1220 /* PlaceholderAsyncImageView.swift in Sources */,
+				997377F529DA7C4900C98F39 /* DataManager.swift in Sources */,
 				99EC071329CD4557009F1220 /* MovieDetailsView.swift in Sources */,
 				9929E5E129D229CC00EF446C /* NavigationManager.swift in Sources */,
 				9929E5E329D2A98800EF446C /* TVHomeView.swift in Sources */,
@@ -632,6 +659,7 @@
 				996520C729D7A92F00AC0F58 /* SearchItemView.swift in Sources */,
 				99EC072229CD4557009F1220 /* MovieFetchable.swift in Sources */,
 				99618A7E29D9576E00173D79 /* FullSizeImageView.swift in Sources */,
+				99FCC72329DCE1F8004DAAFF /* AccountView.swift in Sources */,
 				99EC072329CD4557009F1220 /* CreditFetchable.swift in Sources */,
 				99EC06B929CD0B52009F1220 /* TVScribeApp.swift in Sources */,
 				99EC070929CD4557009F1220 /* PosterView.swift in Sources */,
@@ -837,6 +865,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		991ED86C29DA393E0074AAD3 /* Main.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				991ED86D29DA393E0074AAD3 /* Main.xcdatamodel */,
+			);
+			currentVersion = 991ED86D29DA393E0074AAD3 /* Main.xcdatamodel */;
+			path = Main.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 99EC06AD29CD0B52009F1220 /* Project object */;
 }

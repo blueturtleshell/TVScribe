@@ -10,13 +10,15 @@ import SwiftUI
 struct MovieDetailsView: View {
     
     @EnvironmentObject var mediaManager: MediaManager
+    @EnvironmentObject var dataManager: DataManager
+    
+    @StateObject var movieDetailsViewModel = MovieDetailsViewModel()
+
     @State private var selectedMovie: MediaItem?
     @State private var selectedVideo: VideoItem?
     @State private var selectedCredit: Credit?
     @State private var videosReviewsSelection: VideoReviewSectionType = .videos
     @State private var watchProviderSelection: ProviderMethod = .buy
-        
-    @StateObject var movieDetailsViewModel = MovieDetailsViewModel()
     @State private var previousMovies = [(id: Int, name: String?)]()
     @State private var scrollToTop = false
     
@@ -90,8 +92,28 @@ struct MovieDetailsView: View {
                 ProgressView()
             }
         }
+        .onAppear {
+            movieDetailsViewModel.dataManager = dataManager
+        }
         .navigationTitle(movieDetailsViewModel.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button {
+                    movieDetailsViewModel.favorite()
+                } label: {
+                    Image(systemName: movieDetailsViewModel.heartIcon)
+                        .tint(.red)
+                }
+
+                Button {
+                    movieDetailsViewModel.bookmark()
+                } label: {
+                    Image(systemName: movieDetailsViewModel.bookmarkIcon)
+                        .tint(.teal)
+                }
+            }
+        }
         .task {
             await fetchDetails(for: movieID)
         }
@@ -102,9 +124,7 @@ struct MovieDetailsView: View {
         .navigationDestination(for: Credit.self) { credit in
             CreditDetailsView(personID: credit.id)
         }
-        .alert(isPresented: $movieDetailsViewModel.hasError, error: movieDetailsViewModel.error) {
-            Button("OK") {}
-        }
+        
     }
     
     var previousMovieButton: some View {
@@ -149,5 +169,6 @@ struct MovieDetailView_Previews: PreviewProvider {
         }
         .environmentObject(MediaManager(jsonParser: JSONParser()))
         .environmentObject(NavigationManager())
+        .environmentObject(DataManager())
     }
 }

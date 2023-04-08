@@ -32,12 +32,9 @@ class MoviesHomeViewModel: ObservableObject {
             fetchState = .finished
         } catch {
             fetchState = .finished
-            self.error = MediaManagerError.specificError(error)
-            hasError = true
         }
     }
     
-    @MainActor
     func fetchNextPageIfNecessary(at mediaItem: MediaItem, mediaManager: MovieFetchable) async {
         guard let index = movies.firstIndex(of: mediaItem) else { return }
         let thresholdIndex = movies.index(movies.endIndex, offsetBy: -fetchThreshold)

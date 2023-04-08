@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RootTabView: View {
     
-    @StateObject var navigationManager = NavigationManager()
+    @EnvironmentObject var navigationManager: NavigationManager
 
     var body: some View {
         TabView(selection: $navigationManager.tabSelection) {
@@ -36,8 +36,15 @@ struct RootTabView: View {
                 Label("Search", systemImage: "magnifyingglass")
             }
             .tag(2)
+            
+            NavigationStack(path: $navigationManager.accountNavigationPath) {
+                AccountView()
+            }
+            .tabItem {
+                Label("Account", systemImage: "person")
+            }
+            .tag(3)
         }
-        .environmentObject(navigationManager)
     }
 }
 

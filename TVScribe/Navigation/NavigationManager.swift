@@ -14,16 +14,15 @@ class NavigationManager: ObservableObject {
     @Published var movieNavigationPath = NavigationPath()
     @Published var tvNavigationPath = NavigationPath()
     @Published var searchNavigationPath = NavigationPath()
+    @Published var accountNavigationPath = NavigationPath()
     
     func showMovie(with id: Int) {
         tabSelection = 0
-        movieNavigationPath = NavigationPath()
         movieNavigationPath.append(id)
     }
     
     func showTVShow(with id: Int) {
         tabSelection = 1
-        tvNavigationPath = NavigationPath()
         tvNavigationPath.append(id)
     }
     

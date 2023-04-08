@@ -16,6 +16,8 @@ class MovieDetailsViewModel: ObservableObject {
     
     private var regionCode = "US"
     
+    var dataManager: DataManager?
+    
     var id: Int {
         movieDetails?.id ?? 0
     }
@@ -105,6 +107,52 @@ class MovieDetailsViewModel: ObservableObject {
     var reviews: [Review] {
         movieDetails?.reviews.results ?? []
     }
+    
+    // MARK: - Core Data
+    
+    var heartIcon: String {
+        guard let movieDetails else { return "heart" }
+        
+        if let item = dataManager?.fetchSavedItem(with: String(movieDetails.id)) {
+            return "heart\(item.isFavorite ? ".fill" : "")"
+        }
+        
+        return "heart"
+    }
+    
+    var bookmarkIcon: String {
+        guard let movieDetails else { return "bookmark" }
+        
+        if let item = dataManager?.fetchSavedItem(with: String(movieDetails.id)) {
+            return "bookmark\(item.isBookmark ? ".fill" : "")"
+        }
+        
+        return "bookmark"
+    }
+    
+    func favorite() {
+        guard let movieDetails, let dataManager else { return }
+        objectWillChange.send()
+        
+        if let item = dataManager.fetchSavedItem(with: String(movieDetails.id)) {
+            dataManager.toggleFavorite(for: item)
+        } else {
+            dataManager.createSavedItem(id: id, name: name, posterURL: posterURL, type: .movie, favorited: true)
+        }
+    }
+    
+    func bookmark() {
+        guard let movieDetails, let dataManager else { return }
+        objectWillChange.send()
+        
+        if let item = dataManager.fetchSavedItem(with: String(movieDetails.id)) {
+            dataManager.toggleBookmark(for: item)
+        } else {
+            dataManager.createSavedItem(id: id, name: name, posterURL: posterURL, type: .movie, bookmarked: true)
+        }
+    }
+    
+    // MARK: - fetching
     
     @MainActor
     func fetchDetails(for movieID: Int, movieFetchable: MovieFetchable) async {
