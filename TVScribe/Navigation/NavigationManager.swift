@@ -18,15 +18,28 @@ class NavigationManager: ObservableObject {
     
     func showMovie(with id: Int) {
         tabSelection = 0
-        movieNavigationPath.append(id)
+        
+        movieNavigationPath = NavigationPath()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.movieNavigationPath.append(id)
+        }
     }
     
     func showTVShow(with id: Int) {
         tabSelection = 1
-        tvNavigationPath.append(id)
+        tvNavigationPath = NavigationPath()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.tvNavigationPath.append(id)
+        }
     }
     
     func showCredit(with id: Int) {
-        searchNavigationPath.append(id)
+        searchNavigationPath = NavigationPath()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.searchNavigationPath.append(id)
+        }
     }
 }
