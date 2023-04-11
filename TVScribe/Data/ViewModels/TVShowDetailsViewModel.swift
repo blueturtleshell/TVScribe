@@ -14,6 +14,8 @@ class TVShowDetailsViewModel: ObservableObject {
     @Published private var seasonDetails: SeasonDetails?
     @Published var regionCode = "US"
     
+    var dataManager: DataManager?
+    
     var id: Int {
         tvShowDetails?.id ?? 0
     }
@@ -129,6 +131,52 @@ class TVShowDetailsViewModel: ObservableObject {
     var recommendations: [MediaItem] {
         tvShowDetails?.recommendations.results ?? []
     }
+    
+    // MARK: - Core Data
+    
+    var heartIcon: String {
+        guard let tvShowDetails else { return "heart" }
+        
+        if let item = dataManager?.fetchSavedItem(with: String(tvShowDetails.id)) {
+            return "heart\(item.isFavorite ? ".fill" : "")"
+        }
+        
+        return "heart"
+    }
+    
+    var bookmarkIcon: String {
+        guard let tvShowDetails else { return "bookmark" }
+        
+        if let item = dataManager?.fetchSavedItem(with: String(tvShowDetails.id)) {
+            return "bookmark\(item.isBookmark ? ".fill" : "")"
+        }
+        
+        return "bookmark"
+    }
+    
+    func favorite() {
+        guard let tvShowDetails, let dataManager else { return }
+        objectWillChange.send()
+        
+        if let item = dataManager.fetchSavedItem(with: String(tvShowDetails.id)) {
+            dataManager.toggleFavorite(for: item)
+        } else {
+            dataManager.createSavedItem(id: id, name: name, posterURL: posterURL, type: .tv, favorited: true)
+        }
+    }
+    
+    func bookmark() {
+        guard let tvShowDetails, let dataManager else { return }
+        objectWillChange.send()
+        
+        if let item = dataManager.fetchSavedItem(with: String(tvShowDetails.id)) {
+            dataManager.toggleBookmark(for: item)
+        } else {
+            dataManager.createSavedItem(id: id, name: name, posterURL: posterURL, type: .tv, bookmarked: true)
+        }
+    }
+    
+    // MARK: - Fetching
     
     @MainActor
     func fetchDetails(for tvShowID: Int, tvFetchable: TVFetchable) async {

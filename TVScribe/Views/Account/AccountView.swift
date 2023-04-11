@@ -55,10 +55,13 @@ struct AccountView: View {
                 
             }
         }
-        .navigationTitle("Account")
         .onAppear {
             viewModel.dataManager = dataManager
             viewModel.fetchAllSavedItems()
+        }
+        .navigationTitle("Account")
+        .navigationDestination(for: Int.self) { personID in
+            CreditDetailsView(personID: personID)
         }
     }
     
@@ -87,7 +90,7 @@ struct AccountView: View {
                     case "tv":
                         navigationManager.showTVShow(with: savedItemViewModel.id)
                     case "person":
-                        navigationManager.showCredit(with: savedItemViewModel.id)
+                        navigationManager.showCreditFromAccount(with: savedItemViewModel.id)
                     default: return
                     }
                 }

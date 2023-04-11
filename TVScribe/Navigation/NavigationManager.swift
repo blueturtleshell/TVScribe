@@ -35,11 +35,19 @@ class NavigationManager: ObservableObject {
         }
     }
     
-    func showCredit(with id: Int) {
+    func showCreditFromSearch(with id: Int) {
         searchNavigationPath = NavigationPath()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.searchNavigationPath.append(id)
+        }
+    }
+    
+    func showCreditFromAccount(with id: Int) {
+        accountNavigationPath = NavigationPath()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.accountNavigationPath.append(id)
         }
     }
 }

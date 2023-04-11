@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TVShowDetailsView: View {
     @EnvironmentObject var mediaManager: MediaManager
+    @EnvironmentObject var dataManager: DataManager
     @StateObject var viewModel = TVShowDetailsViewModel()
     private var tvShowID: Int
     
@@ -119,7 +120,28 @@ struct TVShowDetailsView: View {
             .background(.thinMaterial)
             .background(FullSizeImageView(url: viewModel.posterURL))
         }
+        .onAppear {
+            viewModel.dataManager = dataManager
+        }
         .navigationTitle(viewModel.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button {
+                    viewModel.favorite()
+                } label: {
+                    Image(systemName: viewModel.heartIcon)
+                        .tint(.red)
+                }
+
+                Button {
+                    viewModel.bookmark()
+                } label: {
+                    Image(systemName: viewModel.bookmarkIcon)
+                        .tint(.teal)
+                }
+            }
+        }
         .task {
             scrollToTop.toggle()
             await fetchTVShowDetails(for: tvShowID)

@@ -11,6 +11,7 @@ struct CreditDetailsView: View {
     
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var mediaManager: MediaManager
+    @EnvironmentObject var dataManager: DataManager
 
     let personID: Int
     @StateObject var viewModel = CreditDetailsViewModel()
@@ -67,7 +68,27 @@ struct CreditDetailsView: View {
                 ProgressView()
             }
         }
+        .onAppear {
+            viewModel.dataManager = dataManager
+        }
         .navigationTitle(viewModel.name)
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button {
+                    viewModel.favorite()
+                } label: {
+                    Image(systemName: viewModel.heartIcon)
+                        .tint(.red)
+                }
+
+                Button {
+                    viewModel.bookmark()
+                } label: {
+                    Image(systemName: viewModel.bookmarkIcon)
+                        .tint(.teal)
+                }
+            }
+        }
         .task {
             await viewModel.fetchDetails(for: personID, creditFetchable: mediaManager)
         }

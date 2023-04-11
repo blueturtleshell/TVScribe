@@ -29,7 +29,7 @@ struct SearchView: View {
                                 .onTapGesture {
                                     switch searchItemViewModel.mediaType.lowercased() {
                                     case "person":
-                                        navigationManager.showCredit(with: searchItemViewModel.id)
+                                        navigationManager.showCreditFromSearch(with: searchItemViewModel.id)
                                     case "movie":
                                         navigationManager.showMovie(with: searchItemViewModel.id)
                                     case "tv":

@@ -13,7 +13,13 @@ class CreditDetailsViewModel: ObservableObject {
     @Published var hasError = false
     @Published var error: MediaManagerError?
     
+    var dataManager: DataManager?
+    
     private var creditDetails: CreditDetails?
+    
+    var id: Int {
+        creditDetails?.id ?? 0
+    }
     
     var profileImageURL: URL? {
         guard let profilePath = creditDetails?.profilePath, !profilePath.isEmpty else { return nil }
@@ -44,6 +50,54 @@ class CreditDetailsViewModel: ObservableObject {
     var tvCrewCredits: [CrewCredit] {
         creditDetails?.combinedCredits.crew.filter { $0.mediaType == "tv" }.sorted() ?? []
     }
+    
+    // MARK: - Core Data
+    
+    // MARK: - Core Data
+    
+    var heartIcon: String {
+        guard let creditDetails else { return "heart" }
+        
+        if let item = dataManager?.fetchSavedItem(with: String(creditDetails.id)) {
+            return "heart\(item.isFavorite ? ".fill" : "")"
+        }
+        
+        return "heart"
+    }
+    
+    var bookmarkIcon: String {
+        guard let creditDetails else { return "bookmark" }
+        
+        if let item = dataManager?.fetchSavedItem(with: String(creditDetails.id)) {
+            return "bookmark\(item.isBookmark ? ".fill" : "")"
+        }
+        
+        return "bookmark"
+    }
+    
+    func favorite() {
+        guard let creditDetails, let dataManager else { return }
+        objectWillChange.send()
+        
+        if let item = dataManager.fetchSavedItem(with: String(creditDetails.id)) {
+            dataManager.toggleFavorite(for: item)
+        } else {
+            dataManager.createSavedItem(id: id, name: name, posterURL: profileImageURL, type: .person, favorited: true)
+        }
+    }
+    
+    func bookmark() {
+        guard let creditDetails, let dataManager else { return }
+        objectWillChange.send()
+        
+        if let item = dataManager.fetchSavedItem(with: String(creditDetails.id)) {
+            dataManager.toggleBookmark(for: item)
+        } else {
+            dataManager.createSavedItem(id: id, name: name, posterURL: profileImageURL, type: .person, bookmarked: true)
+        }
+    }
+    
+    // MARK: - Fetching
     
     @MainActor
     func fetchDetails(for personID: Int, creditFetchable: CreditFetchable) async {
