@@ -13,7 +13,8 @@ struct AccountView: View {
     @EnvironmentObject var dataManager: DataManager
     @StateObject var viewModel = AccountViewModel()
     let columns = [GridItem(.adaptive(minimum: 180, maximum: 200), spacing: 8)]
-    
+    @State private var showDiscover = false
+    @State private var showEmptyAlert = false
     
     var body: some View {
         GeometryReader { proxy in
@@ -22,14 +23,16 @@ struct AccountView: View {
                     VStack {
                         Picker("Show favorites or bookmark", selection: $viewModel.accountCategory) {
                             ForEach(AccountCategory.allCases, id: \.self) { category in
-                                Text(category.name)
+                                Image(systemName: category.icon)
+                                    .symbolVariant(category == viewModel.accountCategory ? .fill : .none)
                             }
                         }
                         .pickerStyle(.segmented)
                         
                         Picker("Show movies, tv shows, or people", selection: $viewModel.type) {
                             ForEach(SavedType.allCases, id: \.self) { category in
-                                Text(category.name)
+                                Image(systemName: category.icon)
+                                    .symbolVariant(category == viewModel.type ? .fill : .none)
                             }
                         }
                         .pickerStyle(.segmented)
@@ -52,7 +55,6 @@ struct AccountView: View {
                     
                     Spacer()
                 }
-                
             }
         }
         .onAppear {
@@ -60,9 +62,32 @@ struct AccountView: View {
             viewModel.fetchAllSavedItems()
         }
         .navigationTitle("Account")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    guard !viewModel.isEmpty else {
+                        showEmptyAlert = true
+                        return
+                    }
+                    
+                    showDiscover = true
+                } label: {
+                    Image(systemName: "binoculars.fill")
+                }
+            }
+        }
         .navigationDestination(for: Int.self) { personID in
             CreditDetailsView(personID: personID)
         }
+        .navigationDestination(isPresented: $showDiscover) {
+            Text("Discover")
+        }
+        .alert("No Favorites", isPresented: $showEmptyAlert) {
+            Button("OK") { }
+        } message: {
+            Text("To get started, ❤️ your favorite movies, tv shows, and people.")
+        }
+
     }
     
     var currentFilteredItemsList: some View {
@@ -109,123 +134,18 @@ struct AccountView_Previews: PreviewProvider {
     }
 }
 
-import CoreData
-import Combine
-
-class AccountViewModel: ObservableObject {
-    
-    var dataManager: DataManager?
-    
-    private var allItems = [SavedItem]()
-    @Published var accountCategory: AccountCategory = .favorite
-    @Published var type: SavedType = .movie
-    
-    private var notificationSubscription: AnyCancellable?
-    
-    var currentFilteredItems: [SavedItem] {
-        switch accountCategory {
-        case .favorite:
-            return allItems
-                .filter { $0.isFavorite }
-                .filter { $0.type == type.name.lowercased() }
-                .sorted { $0.name ?? "" < $1.name ?? "" }
-        case .bookmark:
-            return allItems
-                .filter { $0.isBookmark }
-                .filter { $0.type == type.name.lowercased() }
-                .sorted { $0.name ?? "" < $1.name ?? "" }
-        }
-    }
-    
-    init() {
-        notificationSubscription = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave)
-            .sink { [weak self] notification in
-                
-                guard let self, let userInfo = notification.userInfo else { return }
-                let inserted = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject> ?? []
-                let updated = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject> ?? []
-                let deleted = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject> ?? []
-                
-                handleInsertedItems(items: inserted)
-                handleUpdatedItems(items: updated)
-                handleDeletedItems(items: deleted)
-            }
-    }
-    
-    func fetchAllSavedItems() {
-        objectWillChange.send()
-        allItems = dataManager?.fetchAllSavedItems() ?? []
-    }
-    
-    private func handleInsertedItems(items: Set<NSManagedObject>) {
-        for object in items {
-            if let savedItem = object as? SavedItem {
-                allItems.append(savedItem)
-            }
-        }
-    }
-    
-    // if an item is already bookmarked and favorites is toggled on
-    private func handleUpdatedItems(items: Set<NSManagedObject>) {
-        for object in items {
-            if let savedItem = object as? SavedItem, let index = allItems.firstIndex(of: savedItem) {
-                allItems[index] = savedItem
-            }
-        }
-    }
-    
-    private func handleDeletedItems(items: Set<NSManagedObject>) {
-        for object in items {
-            if let savedItem = object as? SavedItem, let index = allItems.firstIndex(where: { $0.moviedbID == savedItem.moviedbID }) {
-                allItems.remove(at: index)
-            }
-        }
-    }
-}
-
 enum AccountCategory: String, CaseIterable {
     case favorite, bookmark
     
     var name: String {
         rawValue.capitalized
     }
-}
-
-enum SavedType: String, CaseIterable {
-    case movie, tv, person
     
-    var name: String {
-        if self == .tv {
-            return rawValue.uppercased()
+    var icon: String {
+        switch self {
+        case .favorite: return "heart"
+        case .bookmark: return "bookmark"
         }
-        
-        return rawValue.capitalized
     }
 }
 
-class SavedItemViewModel {
-    
-    private let savedItem: SavedItem
-    
-    init(savedItem: SavedItem) {
-        self.savedItem = savedItem
-    }
-    
-    var id: Int {
-        Int(savedItem.moviedbID!)!
-    }
-    
-    var name: String {
-        savedItem.name ?? ""
-    }
-    
-    var type: String {
-        savedItem.type ?? "movie"
-    }
-    
-    var imageURL: URL? {
-        guard let path = savedItem.imagePath, !path.isEmpty else { return nil }
-        
-        return URL(string: path)
-    }
-}

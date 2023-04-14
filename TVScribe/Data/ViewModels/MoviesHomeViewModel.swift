@@ -32,6 +32,8 @@ class MoviesHomeViewModel: ObservableObject {
             fetchState = .finished
         } catch {
             fetchState = .finished
+            self.error = MediaManagerError.specificError(error)
+            hasError = true
         }
     }
     

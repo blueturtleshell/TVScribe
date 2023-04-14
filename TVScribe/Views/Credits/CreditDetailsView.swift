@@ -77,7 +77,7 @@ struct CreditDetailsView: View {
                 Button {
                     viewModel.favorite()
                 } label: {
-                    Image(systemName: viewModel.heartIcon)
+                    Image(systemName: viewModel.favoriteIcon)
                         .tint(.red)
                 }
 

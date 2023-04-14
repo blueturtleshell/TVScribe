@@ -53,9 +53,7 @@ class CreditDetailsViewModel: ObservableObject {
     
     // MARK: - Core Data
     
-    // MARK: - Core Data
-    
-    var heartIcon: String {
+    var favoriteIcon: String {
         guard let creditDetails else { return "heart" }
         
         if let item = dataManager?.fetchSavedItem(with: String(creditDetails.id)) {

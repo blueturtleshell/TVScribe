@@ -134,7 +134,7 @@ class TVShowDetailsViewModel: ObservableObject {
     
     // MARK: - Core Data
     
-    var heartIcon: String {
+    var favoriteIcon: String {
         guard let tvShowDetails else { return "heart" }
         
         if let item = dataManager?.fetchSavedItem(with: String(tvShowDetails.id)) {

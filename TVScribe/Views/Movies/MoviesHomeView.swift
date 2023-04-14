@@ -48,6 +48,9 @@ struct MoviesHomeView: View {
                 .pickerStyle(.segmented)
             }
         }
+        .alert(isPresented: $viewModel.hasError, error: viewModel.error) {
+            Button("OK") {}
+        }
         .onChange(of: viewModel.category, perform: { _ in
             viewModel.reset()
             Task {

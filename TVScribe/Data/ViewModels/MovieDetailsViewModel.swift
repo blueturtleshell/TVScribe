@@ -110,7 +110,7 @@ class MovieDetailsViewModel: ObservableObject {
     
     // MARK: - Core Data
     
-    var heartIcon: String {
+    var favoriteIcon: String {
         guard let movieDetails else { return "heart" }
         
         if let item = dataManager?.fetchSavedItem(with: String(movieDetails.id)) {

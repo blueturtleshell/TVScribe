@@ -102,7 +102,7 @@ struct MovieDetailsView: View {
                 Button {
                     movieDetailsViewModel.favorite()
                 } label: {
-                    Image(systemName: movieDetailsViewModel.heartIcon)
+                    Image(systemName: movieDetailsViewModel.favoriteIcon)
                         .tint(.red)
                 }
 
