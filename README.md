@@ -1,2 +1,3 @@
 # TVScribe
-An iOS application that allows users to find and favorite their favorite movie and tv shows and get recommendations.
+An iOS application that allows users to find and favorite movies, tv shows, and actors and get recommendations.
+
