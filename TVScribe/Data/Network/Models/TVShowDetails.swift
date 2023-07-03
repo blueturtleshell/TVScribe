@@ -35,6 +35,7 @@ struct TVShowDetails: Codable {
     let videos: Videos
     let recommendations: MediaFetchResult
     let contentRatings: ContentRatings
+    let watchProviders: WatchProvidersResponse
 
     enum CodingKeys: String, CodingKey {
         case id, name, overview, popularity, languages, genres, networks, status, tagline, type, seasons, credits, recommendations, reviews, videos
@@ -50,6 +51,7 @@ struct TVShowDetails: Codable {
         case spokenLanguages = "spoken_languages"
         case voteAverage = "vote_average"
         case contentRatings = "content_ratings"
+        case watchProviders = "watch/providers"
     }
 }
 

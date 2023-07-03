@@ -19,18 +19,17 @@ class NavigationManager: ObservableObject {
     func showMovie(with id: Int) {
         tabSelection = 0
         
-        movieNavigationPath = NavigationPath()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            self.movieNavigationPath = NavigationPath()
             self.movieNavigationPath.append(id)
         }
     }
     
     func showTVShow(with id: Int) {
         tabSelection = 1
-        tvNavigationPath = NavigationPath()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            self.tvNavigationPath = NavigationPath()
             self.tvNavigationPath.append(id)
         }
     }
@@ -38,7 +37,7 @@ class NavigationManager: ObservableObject {
     func showCreditFromSearch(with id: Int) {
         searchNavigationPath = NavigationPath()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
             self.searchNavigationPath.append(id)
         }
     }
@@ -46,7 +45,7 @@ class NavigationManager: ObservableObject {
     func showCreditFromAccount(with id: Int) {
         accountNavigationPath = NavigationPath()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
             self.accountNavigationPath.append(id)
         }
     }

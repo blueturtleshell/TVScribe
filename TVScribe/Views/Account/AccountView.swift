@@ -65,10 +65,10 @@ struct AccountView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    guard !viewModel.isEmpty else {
-                        showEmptyAlert = true
-                        return
-                    }
+//                    guard !viewModel.isEmpty else {
+//                        showEmptyAlert = true
+//                        return
+//                    }
                     
                     showDiscover = true
                 } label: {
@@ -80,7 +80,8 @@ struct AccountView: View {
             CreditDetailsView(personID: personID)
         }
         .navigationDestination(isPresented: $showDiscover) {
-            Text("Discover")
+            DiscoverView()
+                .environmentObject(viewModel)
         }
         .alert("No Favorites", isPresented: $showEmptyAlert) {
             Button("OK") { }

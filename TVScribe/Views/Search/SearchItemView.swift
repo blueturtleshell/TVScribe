@@ -37,21 +37,35 @@ class SearchItemViewModel {
     private var imagePath: String?
     private var _headline: String?
     private var _subheadline: String?
-    private let _mediaType: String
+    private let _mediaType: String?
     
-    init(searchItem: SearchItem) {
+    init(searchItem: SearchItem, searchScope: String) {
         _id = searchItem.id
-        switch searchItem.mediaType.lowercased() {
+        
+        switch searchScope {
+        case "all":
+            _mediaType = searchItem.mediaType
+
+            if searchItem.mediaType == "person" {
+                imagePath = searchItem.profilePath
+                _headline = searchItem.name
+                _subheadline = "Person"
+                
+            } else {
+                imagePath = searchItem.posterPath
+                _headline = searchItem.name ?? searchItem.title
+                _subheadline = self.releaseYear(from: searchItem)
+            }
         case "person":
             imagePath = searchItem.profilePath
             _headline = searchItem.name
-            _mediaType = searchItem.mediaType
+            _mediaType = searchScope
             _subheadline = "Person"
         default:
             imagePath = searchItem.posterPath
             _headline = searchItem.name ?? searchItem.title
-            _mediaType = searchItem.mediaType
-            _subheadline = releaseYear(from: searchItem)
+            _mediaType = searchScope
+            _subheadline = self.releaseYear(from: searchItem)
         }
     }
     
@@ -79,7 +93,7 @@ class SearchItemViewModel {
     }
     
     var mediaType: String {
-        _mediaType
+        _mediaType ?? "Unknown"
     }
     
     private func releaseYear(from searchItem: SearchItem) -> String {

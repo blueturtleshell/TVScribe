@@ -23,7 +23,7 @@ struct SearchView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 24) {
                         ForEach(viewModel.searchItems, id: \.self.specialID) { item in
-                            let searchItemViewModel = SearchItemViewModel(searchItem: item)
+                            let searchItemViewModel = SearchItemViewModel(searchItem: item, searchScope: viewModel.scope.rawValue)
                             SearchItemView(viewModel: searchItemViewModel)
                                 .frame(width: 200, height: 320)
                                 .onTapGesture {
@@ -81,7 +81,7 @@ struct SearchView: View {
 }
 
 enum SearchScope: String, CaseIterable {
-    case all, tv, movie, person
+    case all, movie, tv, person
     
     var name: String {
         switch self {

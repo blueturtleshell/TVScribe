@@ -31,7 +31,7 @@ enum DetailEndpoint: Endpoint {
         case .movie:
             return ["api_key": API.apiKey, "append_to_response": "recommendations,credits,reviews,videos,release_dates,watch/providers"]
         case .tv:
-            return ["api_key": API.apiKey, "append_to_response": "recommendations,credits,reviews,videos,content_ratings"]
+            return ["api_key": API.apiKey, "append_to_response": "recommendations,credits,reviews,videos,content_ratings,watch/providers"]
         case .season:
             return ["api_key": API.apiKey]
         case .person:

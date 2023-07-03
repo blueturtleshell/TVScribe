@@ -33,49 +33,74 @@ struct API {
             case w92, w185, w300, original
         }
     }
+    
+    enum Genre: Int, CaseIterable {
+        case action = 28
+        case adventure = 12
+        case animation = 16
+        case comedy = 35
+        case crime = 80
+        case documentary = 99
+        case drama = 18
+        case family = 10751
+        case fantasy = 14
+        case history = 36
+        case horror = 27
+        case music = 10402
+        case mystery = 9648
+        case romance = 10749
+        case scienceFiction = 878
+        case tvMovie = 10770
+        case thriller = 53
+        case war = 10752
+        case western = 37
+        
+        var name: String {
+            switch self {
+            case .action:
+                return "Action"
+            case .adventure:
+                return "Adventure"
+            case .animation:
+                return "Animation"
+            case .comedy:
+                return "Comedy"
+            case .crime:
+                return "Crime"
+            case .documentary:
+                return "Documentary"
+            case .drama:
+                return "Drama"
+            case .family:
+                return "Family"
+            case .fantasy:
+                return "Fantasy"
+            case .history:
+                return "History"
+            case .horror:
+                return "Horror"
+            case .music:
+                return "Music"
+            case .mystery:
+                return "Mystery"
+            case .romance:
+                return "Romance"
+            case .scienceFiction:
+                return "Science Fiction"
+            case .tvMovie:
+                return "TV Movie"
+            case .thriller:
+                return "Thriller"
+            case .war:
+                return "War"
+            case .western:
+                return "Western"
+            }
+        }
 
-    static func getGenreName(forCode code: Int) -> String {
-        switch code {
-        case 28:
-            return "Action"
-        case 12:
-            return "Adventure"
-        case 16:
-            return "Animation"
-        case 35:
-            return "Comedy"
-        case 80:
-            return "Crime"
-        case 99:
-            return "Documentary"
-        case 18:
-            return "Drama"
-        case 10751:
-            return "Family"
-        case 14:
-            return "Fantasy"
-        case 36:
-            return "History"
-        case 27:
-            return "Horror"
-        case 10402:
-            return "Music"
-        case 9648:
-            return "Mystery"
-        case 10749:
-            return "Romance"
-        case 878:
-            return "Science Fiction"
-        case 10770:
-            return "TV Movie"
-        case 53:
-            return "Thriller"
-        case 10752:
-            return "War"
-        case 37:
-            return "Western"
-        default:
-            return ""
+        static func getGenreName(forCode code: Int) -> String {
+            guard let genre = Genre(rawValue: code) else { return "" }
+            return genre.name
         }
     }
 }

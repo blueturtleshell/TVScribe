@@ -46,7 +46,7 @@ struct WatchProviderSection: View {
                     
                     if let link = viewModel.link {
                         Link(destination: link) {
-                            Text("Click here for more information")
+                            Text("Tap here for more information")
                         }
                         .buttonStyle(.bordered)
                     }

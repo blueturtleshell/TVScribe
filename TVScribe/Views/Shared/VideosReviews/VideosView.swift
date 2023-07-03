@@ -19,7 +19,7 @@ struct VideosView: View {
         } else {
             LazyVStack {
                 ForEach(videos) { video in
-                    ViewItemView(videoViewModel: VideoViewModel(video: video))
+                    VideoItemView(videoViewModel: VideoViewModel(video: video))
                         .onTapGesture {
                             selectedVideo = video
                         }

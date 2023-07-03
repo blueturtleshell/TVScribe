@@ -19,6 +19,9 @@ struct TVShowDetailsView: View {
     
     @State private var selectedTVShow: MediaItem?
     @State private var previousTVShows = [(id: Int, name: String?)]()
+    @State private var selectedVideo: VideoItem?
+    @State private var videosReviewsSelection: VideoReviewSectionType = .videos
+    @State private var watchProviderSelection: ProviderMethod = .buy
     @State private var scrollToTop = false
     
     init(tvShowID: Int) {
@@ -114,10 +117,18 @@ struct TVShowDetailsView: View {
                                 guard let newTVShow else { return }
                                 changeTVShow(to: newTVShow.id)
                             }
+                        
+                        VideosReviewsSection(videos: viewModel.videos,
+                                             reviews: viewModel.reviews,
+                                             videosReviewsSelection: $videosReviewsSelection,
+                                             selectedVideo: $selectedVideo)
+                        
+                        WatchProviderSection(viewModel: RegionWatchProvidersViewModel(watchProviderRegion: viewModel.regionProviders),
+                                             providerMethodSelection: $watchProviderSelection)
                     }
                 }
             }
-            .background(.thinMaterial)
+            .background(.thickMaterial)
             .background(FullSizeImageView(url: viewModel.posterURL))
         }
         .onAppear {
@@ -201,7 +212,10 @@ struct TVShowDetailsView: View {
 
 struct TVShowDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        TVShowDetailsView(tvShowID: 1100)
-            .environmentObject(MediaManager(jsonParser: JSONParser()))
+        NavigationStack {
+            TVShowDetailsView(tvShowID: 1100)
+                .environmentObject(MediaManager(jsonParser: JSONParser()))
+                .environmentObject(DataManager())
+        }
     }
 }

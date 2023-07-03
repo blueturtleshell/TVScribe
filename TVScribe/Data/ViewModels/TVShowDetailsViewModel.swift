@@ -132,6 +132,18 @@ class TVShowDetailsViewModel: ObservableObject {
         tvShowDetails?.recommendations.results ?? []
     }
     
+    var reviews: [Review] {
+        tvShowDetails?.reviews.results ?? []
+    }
+    
+    var videos: [VideoItem] {
+        tvShowDetails?.videos.results ?? []
+    }
+    
+    var regionProviders: RegionWatchProviders {
+        return tvShowDetails?.watchProviders.results["US"] ?? RegionWatchProviders(link: nil, subscription: [], rent: [], buy: [])
+    }
+    
     // MARK: - Core Data
     
     var favoriteIcon: String {

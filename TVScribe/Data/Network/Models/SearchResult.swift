@@ -22,12 +22,12 @@ struct SearchResult: Codable {
 
 // MARK: - SearchItem
 struct SearchItem: Codable, Equatable {
-    var specialID: String { "\(id)\(mediaType)" }
+    var specialID: String { "\(id)\(mediaType ?? "")" }
     let id: Int
     let title: String?
     let name: String?
     let posterPath: String?
-    let mediaType: String
+    let mediaType: String?
     let profilePath: String?
     let releaseDate: String?
     let firstAirDate: String?

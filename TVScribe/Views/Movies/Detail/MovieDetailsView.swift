@@ -84,7 +84,7 @@ struct MovieDetailsView: View {
                         }
                     }
                 }
-                .background(.thinMaterial)
+                .background(.thickMaterial)
                 .background(FullSizeImageView(url: movieDetailsViewModel.posterURL))
             }
             

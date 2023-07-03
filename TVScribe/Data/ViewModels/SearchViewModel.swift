@@ -40,6 +40,7 @@ class SearchViewModel: ObservableObject {
             fetchState = .finished
         } catch {
             self.error = error
+            print(error)
         }
     }
     
@@ -58,5 +59,6 @@ class SearchViewModel: ObservableObject {
         totalPages = Int.max
         noResultsFound = false
         searchItems = []
+        fetchState = .waiting
     }
 }

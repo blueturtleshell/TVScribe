@@ -1,5 +1,5 @@
 //
-//  ViewItemView.swift
+//  VideoItemView.swift
 //  TVScribe
 //
 //  Created by Peter Sun on 3/22/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ViewItemView: View {
+struct VideoItemView: View {
     
     let videoViewModel: VideoViewModel
     

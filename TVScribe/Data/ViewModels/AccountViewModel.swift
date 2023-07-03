@@ -33,6 +33,13 @@ class AccountViewModel: ObservableObject {
         }
     }
     
+    var favoritePeople: [SavedItem] {
+        allItems
+            .filter { $0.isFavorite }
+            .filter { $0.type == SavedType.person.name.lowercased() }
+            .sorted { $0.name ?? "" < $1.name ?? "" }
+    }
+    
     var isEmpty: Bool {
         allItems.isEmpty
     }

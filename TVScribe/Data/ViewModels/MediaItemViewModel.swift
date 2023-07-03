@@ -49,7 +49,7 @@ class MediaItemViewModel {
     }
     
     var genres: [String] {
-        mediaItem.genreIDS.map { API.getGenreName(forCode: $0) }
+        mediaItem.genreIDS.map { API.Genre.getGenreName(forCode: $0) }
     }
     
     var overview: String {

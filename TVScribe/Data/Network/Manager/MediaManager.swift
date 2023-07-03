@@ -55,6 +55,27 @@ extension MediaManager: CreditFetchable {
 extension MediaManager: SearchFetchable {
     func search(query: String, page: Int, type: SearchEndpoint) async throws -> SearchResult {
         guard let url = type.url(additionalParams: ["query": query, "page": String(page)]) else { throw MediaManagerError.invalidURL }
+        print(url)
+        return try await jsonParser.parse(url: url)
+    }
+}
+
+extension MediaManager: DiscoveryFetchable {
+    func discover(for endpoint: DiscoveryEndpoint, page: Int, genres: String?, peopleIDs: String?) async throws -> MediaFetchResult {
+        
+        var discoveryParams = [String: String]()
+        discoveryParams["page"] = String(page)
+        
+        if let genres {
+            discoveryParams["with_genres"] = genres
+        }
+        
+        if let peopleIDs, endpoint == .movie { // tv does not support cast ids
+            discoveryParams["with_cast"] = peopleIDs
+        }
+        
+        guard let url = endpoint.url(additionalParams: discoveryParams) else { throw MediaManagerError.invalidURL }
+        print(url)
         return try await jsonParser.parse(url: url)
     }
 }

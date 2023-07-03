@@ -80,7 +80,7 @@ class CreditDetailsViewModel: ObservableObject {
         if let item = dataManager.fetchSavedItem(with: String(creditDetails.id)) {
             dataManager.toggleFavorite(for: item)
         } else {
-            dataManager.createSavedItem(id: id, name: name, posterURL: profileImageURL, type: .person, favorited: true)
+            dataManager.createSavedItem(id: id, name: name, posterURL: profileImageURL,type: .person, favorited: true)
         }
     }
     
